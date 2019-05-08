@@ -1,5 +1,6 @@
-GIT=git
+GIT="proxychains git"
 GITOS=wsl
+# GITOS should be "cygwin" or "wsl"
 
 CUROS=wsl
 echo $GIT
