@@ -26,4 +26,5 @@ Execute build.bat in the root directory.
 ## Use:
 
 1. Use startfatty.bat to launch fatty-wslbridge directly.
-2. Use makelink.vbs to create a shortcut that contains essential arguments.
+2. Use create_shortcut.vbs to create a shortcut that contains essential arguments.
+3. Use create_contextmenu.vbs/remove_contextmenu.vbs to create/remove a right click menu entry.
