@@ -14,14 +14,8 @@ GIT may be installed in either cygwin or WSL.
 
 ### Configuration:
 
-#### GIT:
-In update-source.sh, git may be configured in cygwin or WSL. Also, GIT is configured as a variable to support proxies like proxychains or tsocks
-
-#### cygwin and WSL:
-In build.bat, you can configure the path of cygwin and WSL distro.
-
 ### Build fatty-wslbridge:
-Execute build.bat in the root directory.
+Execute build.sh in CYGWIN.
 
 ## Use:
 
