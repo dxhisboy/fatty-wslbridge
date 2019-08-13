@@ -11,4 +11,4 @@ DEP=`ldd install/bin/fatty.exe | grep usr | awk '{print $3}'`
 cp $DEP install/bin -v
 cp /bin/cygwin-console-helper.exe install/bin -v
 echo "Installing launch scripts"
-cp *.vbs startfatty.bat install -v
+cp *.vbs startfatty.bat startfattyat.bat install -v
