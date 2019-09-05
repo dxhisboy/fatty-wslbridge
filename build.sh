@@ -16,13 +16,15 @@ function update_source(){
     fi
 }
 function build_wslbridge2(){
+    echo "Building WSLbridge2"
     make -C wslbridge2/
     wsl.exe -e make -C wslbridge2/ < /dev/null
 }
 function build_fatty(){
+    echo "Building fatty"
     make -C fatty
 }
-function install_bin(){
+function install_bin() {
     if [ ! -d install/usr/bin ]; then
 	echo "Creating install directory"
 	mkdir -p install/usr/bin
@@ -41,16 +43,21 @@ function install_bin(){
     DEP=`ldd install/usr/bin/*.exe | grep usr | awk '{print $3}' | sort | uniq`
     cp -v $DEP install/usr/bin
     cp -v /bin/cygwin-console-helper.exe install/usr/bin
-    echo "Installing launch scripts"
-    cp -v create_contextmenu.vbs \
-       create_shortcut.vbs \
-       remove_contextmenu.vbs \
-       startfatty.bat \
-       startfattyat.bat \
-       install
+    echo "Installing init scripts"
+    cp -v init.vbs deinit.vbs install
+}
+function install_assets() {
+    echo "Installing fatty assets"
+    if [ ! -d install/.config ]; then
+	mkdir -p install/.config
+    fi
+    cp -r fatty/themes install/.config
+    cp -r fatty/sounds install/.config
+    cp -r fatty/lang install/.config
 }
 update_source wslbridge2 https://github.com/dxhisboy/wslbridge2.git
 update_source fatty https://github.com/dxhisboy/fatty.git
 build_wslbridge2
 build_fatty
 install_bin
+install_assets

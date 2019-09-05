@@ -1,5 +1,5 @@
 # fatty-wslbridge
-Combine juho-p/fatty and  rprichard/wslbridge to provide a tty for WSL.
+Combine fatty and wslbridge2 to provide a tty for WSL.
 
 ## Build
 
@@ -7,10 +7,10 @@ Combine juho-p/fatty and  rprichard/wslbridge to provide a tty for WSL.
 Install make and gcc-g++ from cygwin repo.
 
 ### Install WSL:
-Install Ubuntu and its build-essentials. Or your favorite WSL distro.
+Install Ubuntu and its build-essentials. Or your favorite WSL distro and equivlent packages.
 
 ### Install GIT:
-GIT may be installed in either cygwin or WSL.
+GIT may be installed in either cygwin or WSL, and you can specify which git to use in build.sh.
 
 ### Configuration:
 
@@ -19,6 +19,5 @@ Execute build.sh in CYGWIN.
 
 ## Use:
 
-1. Use startfatty.bat to launch fatty-wslbridge directly.
-2. Use create_shortcut.vbs to create a shortcut that contains essential arguments.
-3. Use create_contextmenu.vbs/remove_contextmenu.vbs to create/remove a right click menu entry.
+1. Use init.vbs to create context menus and shortcuts for launching fatty-wslbridge.
+2. Use deinit.vbs to clean context menus.
