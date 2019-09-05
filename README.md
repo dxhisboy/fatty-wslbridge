@@ -29,6 +29,6 @@ Execute build.sh in CYGWIN.
 
 ## Known Issues:
 
-Sometimes WSL2 loses its drvfs, and this will make the hvpty backend cannot start, in such cases just terminate WSL2 in CMD window using `wsl -t <distro>`.
-
-Some proxy or VPN softwares may break the winsock, espescially `SangFor` (what a shame) ones, open an **administrative** CMD window and use `netsh winsock reset` in this case.
+1. Sometimes WSL2 loses its drvfs, and this will make the hvpty backend cannot start, in such cases just terminate WSL2 in CMD window using `wsl -t <distro>`.
+2. Some proxy or VPN softwares may break the winsock, espescially `SangFor` (what a shame) ones, open an **administrative** CMD window and use `netsh winsock reset` in this case.
+3. If you reconfigured the version of your WSL, or installed a new distro, you need to run init.vbs again to update context menu and shortcut info.
