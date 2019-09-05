@@ -18,7 +18,6 @@ Sub CreateShortCut(DistroName, Version)
   If Version < 2 Then
     Bridge = WSLBridge
   End IF
-  WScript.Echo ShortCutFile
   Set ShortCut = oWS.CreateShortCut(ShortCutFile)
   ShortCut.TargetPath = ScriptDir & "\usr\bin\fatty.exe"
   ShortCut.Arguments = SharedArg & Bridge & " -d " & DistroName & " -D ~"
