@@ -24,6 +24,11 @@ function build_fatty(){
     echo "Building fatty"
     make -C fatty
 }
+
+function build_unquote(){
+    echo "Building unquote"
+    gcc unquote.c -o unquote.exe
+}
 function install_bin() {
     if [ ! -d install/usr/bin ]; then
 	echo "Creating install directory"
@@ -37,7 +42,7 @@ function install_bin() {
        wslbridge2/bin/wslbridge2-backend \
        install/usr/bin
     echo "Installing fatty"
-    cp -v fatty/bin/fatty.exe install/usr/bin
+    cp -v fatty/src/fatty.exe install/usr/bin
     echo "Installing fatty dependencies"
     rm install/usr/bin/*.dll
     DEP=`ldd install/usr/bin/*.exe | grep usr | awk '{print $3}' | sort | uniq`
@@ -56,8 +61,8 @@ function install_assets() {
     cp -r fatty/lang install/.config
 }
 update_source wslbridge2 https://github.com/dxhisboy/wslbridge2.git
-update_source fatty https://github.com/dxhisboy/fatty.git
+update_source fatty https://github.com/juho-p/fatty.git
 build_wslbridge2
 build_fatty
 install_bin
-install_assets
+#install_assets
