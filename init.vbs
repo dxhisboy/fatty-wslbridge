@@ -4,6 +4,7 @@ Set oReg = GetObject("winmgmts:{impersonationLevel=impersonate}!\\.\root\default
 
 WSL1Reg = "Software\Classes\Directory\Background\shell\fatty-wsl1"
 WSL2Reg = "Software\Classes\Directory\Background\shell\fatty-wsl2"
+WSLReg = "Software\Classes\Directory\Background\shell\fatty-wsl"
 DistrosReg = "Software\Classes\Directory\Background\shell\fatty-wsl-distros"
 
 LxssPath = "SOFTWARE\Microsoft\Windows\CurrentVersion\Lxss"
@@ -12,6 +13,16 @@ SharedArg = " -w max -c """ & ScriptDir & "\.config\fattyrc"" "
 UnquotedBridge = ScriptDir & "/usr/bin/unquote.exe " & ScriptDir & "/usr/bin/rawpty.exe"
 Bridge = ScriptDir & "/usr/bin/rawpty.exe"
 Const HKCU   = &H80000001
+
+Sub DeleteRegTree(hDef, strKeyPath)
+  oReg.EnumKey hDef, strKeyPath, arrSubkeys
+  If IsArray(arrSubkeys) Then
+    For Each strSubkey In arrSubkeys
+      DeleteRegTree hDef, strKeyPath & "\" & strSubkey
+    Next
+  End If
+  oReg.DeleteKey hDef, strKeyPath
+End Sub
 
 Sub CreateShortCut(DistroName, Version)
   ShortCutFile = ScriptDir & "\fatty-" & DistroName & ".lnk"
@@ -28,20 +39,21 @@ Sub CreateContextMenu(DistroName, Version)
   oReg.SetDWORDValue HKCU, DistroReg, "CommandFlags", 64
   oReg.SetStringValue HKCU, DistroReg, "Icon", "%localappdata%\Microsoft\WindowsApps\" & DistroName & ".exe"
   oReg.CreateKey HKCU, DistroReg & "\Command"
-  oReg.SetStringValue HKCU, DistroReg & "\Command", "", ScriptDir & "\usr\bin\fatty.exe" & SharedArg & UnquotedBridge & " wsl.exe -d " & DistroName & " --cd %V"
+  oReg.SetStringValue HKCU, DistroReg & "\Command", "", ScriptDir & "\usr\bin\fatty.exe" & SharedArg & UnquotedBridge & " 'wsl.exe -d " & DistroName & " --cd ""%V""'"
 End Sub
 
 NeedContextMenu = MsgBox("Create context menu?", 4)
 if NeedContextMenu = 6 Then
-  oReg.DeleteKey HKCU, WSL1Reg
-  oReg.DeleteKey HKCU, WSL2Reg
-  oReg.DeleteKey HKCU, DistrosReg
+  DeleteRegTree HKCU, WSL1Reg
+  DeleteRegTree HKCU, WSL2Reg
+  DeleteRegTree HKCU, WSLReg
+  DeleteRegTree HKCU, DistrosReg
 
-  oReg.CreateKey HKCU, WSL2Reg
-  oReg.SetStringValue HKCU, WSL2Reg, "", "Open fatty-wslbridge Here"
-  oReg.setStringValue HKCU, WSL2Reg, "Icon", ScriptDir & "\usr\bin\fatty.exe"
-  oReg.CreateKey HKCU, WSL2Reg & "\Command"
-  oReg.setStringValue HKCU, WSL2Reg & "\Command", "", ScriptDir & "\usr\bin\fatty.exe" & SharedArg & UnquotedBridge & " wsl.exe --cd '%V'"
+  oReg.CreateKey HKCU, WSLReg
+  oReg.SetStringValue HKCU, WSLReg, "", "Open fatty-wslbridge Here"
+  oReg.setStringValue HKCU, WSLReg, "Icon", ScriptDir & "\usr\bin\fatty.exe"
+  oReg.CreateKey HKCU, WSLReg & "\Command"
+  oReg.setStringValue HKCU, WSLReg & "\Command", "", ScriptDir & "\usr\bin\fatty.exe" & SharedArg & UnquotedBridge & " 'wsl.exe --cd ""%V""'"
 
   oReg.CreateKey HKCU, DistrosReg
   oReg.SetStringValue HKCU, DistrosReg, "MUIVerb", "Open fatty Here with Distro"

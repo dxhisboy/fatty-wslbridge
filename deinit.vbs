@@ -3,10 +3,21 @@ Set oReg = GetObject("winmgmts:{impersonationLevel=impersonate}!\\.\root\default
 WSL1Reg = "Software\Classes\Directory\Background\shell\fatty-wsl1"
 WSL2Reg = "Software\Classes\Directory\Background\shell\fatty-wsl2"
 DistrosReg = "Software\Classes\Directory\Background\shell\fatty-wsl-distros"
+Const HKCU   = &H80000001
+
+Sub DeleteRegTree(hDef, strKeyPath)
+  oReg.EnumKey hDef, strKeyPath, arrSubkeys
+  If IsArray(arrSubkeys) Then
+    For Each strSubkey In arrSubkeys
+      DeleteRegTree hDef, strKeyPath & "\" & strSubkey
+    Next
+  End If
+  oReg.DeleteKey hDef, strKeyPath
+End Sub
 
 NeedDeleteMenu = MsgBox("Remove context menu?", 4)
 If NeedDeleteMenu = 6 Then
-  oReg.DeleteKey HKCU, WSL1Reg
-  oReg.DeleteKey HKCU, WSL2Reg
-  oReg.DeleteKey HKCU, DistrosReg
+  DeleteRegTree HKCU, WSL1Reg
+  DeleteRegTree HKCU, WSL2Reg
+  DeleteRegTree HKCU, DistrosReg
 End If

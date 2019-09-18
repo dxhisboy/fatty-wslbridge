@@ -43,6 +43,8 @@ function install_bin() {
        install/usr/bin
     echo "Installing fatty"
     cp -v fatty/src/fatty.exe install/usr/bin
+    echo "Install unquote"
+    cp -v unquote.exe install/usr/bin
     echo "Installing fatty dependencies"
     rm install/usr/bin/*.dll
     DEP=`ldd install/usr/bin/*.exe | grep usr | awk '{print $3}' | sort | uniq`
@@ -64,5 +66,6 @@ update_source wslbridge2 https://github.com/dxhisboy/wslbridge2.git
 update_source fatty https://github.com/juho-p/fatty.git
 build_wslbridge2
 build_fatty
+build_unquote
 install_bin
 #install_assets
